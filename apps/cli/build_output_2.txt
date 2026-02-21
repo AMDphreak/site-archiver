@@ -1,0 +1,13 @@
+    Starting Performing "debug" build using C:\D\dmd2\windows\bin64\dmd.exe for x86_64.
+  Up-to-date arsd-official:core 12.1.0: target for configuration [library] is up to date.
+  Up-to-date arsd-official:characterencodings 12.1.0: target for configuration [library] is up to date.
+  Up-to-date arsd-official:dom 12.1.0: target for configuration [library] is up to date.
+  Up-to-date automem 0.6.11: target for configuration [library] is up to date.
+  Up-to-date cachetools 0.4.2: target for configuration [library] is up to date.
+  Up-to-date requests 2.2.0: target for configuration [std] is up to date.
+    Building site-archiver-lib ~master: building configuration [library]
+    Building site-archiver-cli ~master: building configuration [application]
+source\app.d(20,43): Error: no property `empty` for type `string`, perhaps `import std.range;` is needed?
+    if (helpInformation.helpWanted || (url.empty && !listProfiles)) {
+                                          ^
+Error C:\D\dmd2\windows\bin64\dmd.exe failed with exit code 1.

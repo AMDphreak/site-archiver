@@ -41,7 +41,10 @@ class SiteArchiver {
         writeln("Archiving: ", url);
 
         try {
-            auto rs = getContent(url);
+            auto req = Request();
+            req.verbosity = 0;
+            req.sslSetVerifyPeer(false); // Allow insecure for archiving
+            auto rs = req.get(url);
             string contentType = rs.responseHeaders.get("Content-Type", "text/html");
 
             string localPath = urlToLocalPath(url);
@@ -104,7 +107,8 @@ class SiteArchiver {
     private string urlToLocalPath(string url) {
         auto u = parseUri(url);
         string path = u.path;
-        if (path.empty || path == "/") path = "index.html";
+        if (path.startsWith("/")) path = path[1..$];
+        if (path.empty) path = "index.html";
         if (path.endsWith("/")) path ~= "index.html";
         if (!path.canFind(".")) path ~= ".html";
         return buildPath(u.host, path);

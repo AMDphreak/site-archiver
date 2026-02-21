@@ -15,6 +15,9 @@ importers:
       '@antora/cli':
         specifier: ^3.1.14
         version: 3.1.14
+      '@antora/collector-extension':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@antora/site-generator':
         specifier: ^3.1.14
         version: 3.1.14
@@ -32,6 +35,10 @@ packages:
     resolution: {integrity: sha512-I6WcygMU2bFInjdURJjkYjo7K5M8B3lBB53v9OO0IcY0LhEY8Wa7IlZ7wVinf5qEjHvaYzRGTZVl6RsJtVt7Sw==}
     engines: {node: '>=16.0.0'}
     hasBin: true
+
+  '@antora/collector-extension@1.0.2':
+    resolution: {integrity: sha512-lHXG918k7/b26g66dHHl50WDUBe4qUPxtw15hnRYwPJAQPasHGemVY0m9020Pvq2WcKY3Dyc0k4IK4jzLQY1yw==}
+    engines: {node: '>=16.0.0'}
 
   '@antora/content-aggregator@3.1.14':
     resolution: {integrity: sha512-FVuBgnrGPiktYqK1WHbGF8O8l4m5KHlkxoJumrbacgFo8SKuiRFEo31zalxrCUsv8QM3UBEgX+LdHrve/9CGLg==}
@@ -71,6 +78,10 @@ packages:
 
   '@antora/redirect-producer@3.1.14':
     resolution: {integrity: sha512-5koAwRk1cZrvE/qfOWKXqb3jtxrZbWA5EYHYGFEoato5By3cbC42blH4Bre9/48pjyS6znFpbZhYUBpT7PRhZA==}
+    engines: {node: '>=16.0.0'}
+
+  '@antora/run-command-helper@1.0.2':
+    resolution: {integrity: sha512-fb8t6IQwQvP3Wsmd1pd9rk2R0wJcseY+2qTnhBhqjtM+N43/mT9OnqepRsPqtzzqAcLA1kp4x9SQvAi9QZgjrA==}
     engines: {node: '>=16.0.0'}
 
   '@antora/site-generator@3.1.14':
@@ -661,6 +672,14 @@ snapshots:
       '@antora/user-require-helper': 3.0.0
       commander: 11.1.0
 
+  '@antora/collector-extension@1.0.2':
+    dependencies:
+      '@antora/expand-path-helper': 3.0.0
+      '@antora/run-command-helper': 1.0.2
+      cache-directory: 2.0.0
+      fast-glob: 3.3.3
+      js-yaml: 4.1.1
+
   '@antora/content-aggregator@3.1.14':
     dependencies:
       '@antora/expand-path-helper': 3.0.0
@@ -738,6 +757,8 @@ snapshots:
     transitivePeerDependencies:
       - bare-abort-controller
       - react-native-b4a
+
+  '@antora/run-command-helper@1.0.2': {}
 
   '@antora/site-generator@3.1.14':
     dependencies:

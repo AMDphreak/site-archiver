@@ -1,5 +1,6 @@
 import std.stdio;
 import std.getopt;
+import std.array;
 import archiver;
 import archiver.profiles;
 

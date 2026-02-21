@@ -4,13 +4,14 @@ site:
   start_page: site-archiver::index.adoc
 content:
   sources:
-    - url: .
+    - url: ..
       branches: HEAD
-      start_path: .
+      start_path: docs
 ui:
   bundle:
-    url: ./node_modules/antora-dark-theme/dist/ui-bundle.zip
+    url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
     snapshot: true
+  supplemental_files: ../node_modules/antora-dark-theme/supplemental-ui
 output:
   dir: ./build/site
 antora:
