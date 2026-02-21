@@ -1,0 +1,61 @@
+= Site Archiver
+:toc: macro
+
+image:https://img.shields.io/github/license/AMDphreak/site-archiver[License]
+
+A comprehensive toolset for archiving websites to a static, offline format.
+
+== Components
+
+* **site-archiver-lib**: D-lang library for crawling and link rewriting.
+* **site-archiver-cli**: Command-line interface.
+* **site-archiver-gui**: Webview-based GUI with page preview and session management.
+* **site-archiver-extension**: Chrome extension (WASM-ready) for capturing sessions and triggering downloads.
+
+== Setup
+
+=== Prerequisites
+
+* D Compiler (DMD or LDC)
+* Dub
+* Node.js & pnpm
+* corepack enabled
+
+=== Installation
+
+[source,powershell]
+----
+corepack enable
+pnpm install
+----
+
+== Usage
+
+=== CLI
+
+[source,powershell]
+----
+cd apps/cli
+dub run -- --url https://example.com
+----
+
+=== GUI
+
+[source,powershell]
+----
+cd apps/gui
+dub run
+----
+
+== Development
+
+The project uses a monorepo structure managed by `pnpm` workspaces.
+
+* `libs/archiver`: Core D logic.
+* `apps/cli`: CLI frontend.
+* `apps/gui`: GUI frontend using `webview-d`.
+* `docs`: Antora documentation.
+
+== License
+
+MIT
