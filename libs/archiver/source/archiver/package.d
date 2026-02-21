@@ -9,6 +9,7 @@ import std.uri;
 import std.net.curl;
 import std.conv;
 import std.typecons;
+import std.string;
 
 import requests;
 import arsd.dom;
@@ -26,8 +27,13 @@ class SiteArchiver {
         this.rootUrl = rootUrl;
         this.outputDir = outputDir;
         // Simple domain extraction
-        auto u = parseUri(rootUrl);
-        this.domain = u.host;
+        auto u = URI(rootUrl);
+        this.domain = getApexDomain(u.host);
+    }
+
+    private string getApexDomain(string host) {
+        if (host.startsWith("www.")) return host[4..$];
+        return host;
     }
 
     void archive(int maxDepth = 3) {
@@ -45,9 +51,16 @@ class SiteArchiver {
             req.verbosity = 0;
             req.sslSetVerifyPeer(false); // Allow insecure for archiving
             auto rs = req.get(url);
+            
+            // If redirected, mark the final URL as visited too to prevent loops
+            string finalUrl = rs.finalURI.uri;
+            if (finalUrl != url) {
+                visitedUrls[finalUrl] = true;
+            }
+
             string contentType = rs.responseHeaders.get("Content-Type", "text/html");
 
-            string localPath = urlToLocalPath(url);
+            string localPath = urlToLocalPath(finalUrl);
             string fullPath = buildPath(outputDir, localPath);
             mkdirRecurse(dirName(fullPath));
 
@@ -63,7 +76,7 @@ class SiteArchiver {
 
                     if (!attr.empty && element.hasAttribute(attr)) {
                         string targetUrl = element.getAttribute(attr);
-                        string absoluteTarget = resolveUrl(url, targetUrl);
+                        string absoluteTarget = resolveUrl(finalUrl, targetUrl);
 
                         if (shouldDownload(absoluteTarget)) {
                             // Recursively crawl if it's a link and we have depth
@@ -89,28 +102,54 @@ class SiteArchiver {
     }
 
     private string resolveUrl(string base, string relative) {
-        // Basic URL resolution
+        if (relative.empty || relative.startsWith("#")) return base;
         if (relative.startsWith("http")) return relative;
-        // This is a simplification; a real implementation should handle more cases
-        auto u = parseUri(base);
+        
+        auto u = URI(base);
         if (relative.startsWith("/")) {
             return u.scheme ~ "://" ~ u.host ~ relative;
         }
-        return base.dirName ~ "/" ~ relative;
+        
+        // Handle relative paths (not starting with /)
+        string basePath = u.path;
+        if (!basePath.endsWith("/")) {
+            auto lastSlash = basePath.lastIndexOf("/");
+            if (lastSlash != -1) basePath = basePath[0..lastSlash+1];
+            else basePath = "/";
+        }
+        
+        return u.scheme ~ "://" ~ u.host ~ basePath ~ relative;
     }
 
     private bool shouldDownload(string url) {
-        auto u = parseUri(url);
-        return u.host == this.domain || u.host.endsWith("." ~ this.domain);
+        auto u = URI(url);
+        string targetDomain = getApexDomain(u.host);
+        return targetDomain == this.domain || targetDomain.endsWith("." ~ this.domain);
     }
 
     private string urlToLocalPath(string url) {
-        auto u = parseUri(url);
+        auto u = URI(url);
         string path = u.path;
+        
+        // Strip fragment
+        import std.algorithm.searching : countUntil;
+        auto hashIdx = path.countUntil("#");
+        if (hashIdx != -1) path = path[0..hashIdx];
+        
+        // Strip leading slash
         if (path.startsWith("/")) path = path[1..$];
+        
+        // Handle empty path or directory-like path
         if (path.empty) path = "index.html";
-        if (path.endsWith("/")) path ~= "index.html";
+        else if (path.endsWith("/")) path ~= "index.html";
+        
+        // Ensure extension if missing
         if (!path.canFind(".")) path ~= ".html";
+
+        // Sanitize for Windows: remove query/fragment and replace invalid chars
+        import std.string : tr;
+        path = path.tr(`<>:"|?*#`, `________`);
+        
         return buildPath(u.host, path);
     }
 
@@ -118,30 +157,4 @@ class SiteArchiver {
         // Simplified relative path calculation
         return to; // For now
     }
-}
-
-// Minimal URI parser for the example
-struct UriParts {
-    string scheme;
-    string host;
-    string path;
-}
-
-UriParts parseUri(string uri) {
-    // Very simplified parser
-    UriParts p;
-    auto idx = uri.indexOf("://");
-    if (idx != -1) {
-        p.scheme = uri[0..idx];
-        string rest = uri[idx+3..$];
-        auto pIdx = rest.indexOf("/");
-        if (pIdx != -1) {
-            p.host = rest[0..pIdx];
-            p.path = rest[pIdx..$];
-        } else {
-            p.host = rest;
-            p.path = "/";
-        }
-    }
-    return p;
 }
