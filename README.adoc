@@ -1,16 +1,16 @@
-= Site Archiver
+= Site Downloader
 :toc: macro
 
-image:https://img.shields.io/github/license/AMDphreak/site-archiver[License]
+image:https://img.shields.io/github/license/AMDphreak/site-downloader[License]
 
 A comprehensive toolset for archiving websites to a static, offline format.
 
 == Components
 
-* **site-archiver-lib**: D-lang library for crawling and link rewriting.
-* **site-archiver-cli**: Command-line interface.
-* **site-archiver-gui**: Webview-based GUI with page preview and session management.
-* **site-archiver-extension**: Chrome extension (WASM-ready) for capturing sessions and triggering downloads.
+* **site-downloader-lib**: D-lang library for crawling and link rewriting.
+* **site-downloader-cli**: Command-line interface.
+* **site-downloader-gui**: Webview-based GUI with page preview and session management.
+* **site-downloader-extension**: Chrome extension (WASM-ready) for capturing sessions and triggering downloads.
 
 == Setup
 
@@ -56,6 +56,3 @@ The project uses a monorepo structure managed by `pnpm` workspaces.
 * `apps/gui`: GUI frontend using `webview-d`.
 * `docs`: Antora documentation.
 
-== License
-
-MIT

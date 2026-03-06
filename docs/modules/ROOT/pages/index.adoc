@@ -1,7 +1,7 @@
-= Site Archiver
+= Site Downloader
 :description: Recursive site downloader and archiver.
 
-Welcome to the Site Archiver documentation.
+Welcome to the Site Downloader documentation.
 
 == Features
 * Recursive downloading.
