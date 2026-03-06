@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "dub build :site-archiver-cli",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

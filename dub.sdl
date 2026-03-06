@@ -1,0 +1,6 @@
+name "site-downloader"
+description "Site downloader monorepo root; use dub build :site-archiver-cli or :site-archiver-gui"
+targetType "none"
+dependency ":site-archiver-cli" version="*"
+subPackage "apps/cli"
+subPackage "apps/gui"
