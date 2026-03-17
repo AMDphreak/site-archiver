@@ -12,6 +12,14 @@ A comprehensive toolset for archiving websites to a static, offline format.
 * **site-downloader-gui**: Webview-based GUI with page preview and session management.
 * **site-downloader-extension**: Chrome extension (WASM-ready) for capturing sessions and triggering downloads.
 
+== Download
+
+You can download the latest version of Site Downloader from the link:https://github.com/AMDphreak/site-downloader/releases[GitHub Releases] page.
+
+* **Installer**: `site-downloader-setup.exe` (Recommended for Windows)
+* **Standalone**: `site-downloader-cli.exe` and `site-downloader-gui.exe`
+* **WinGet**: `winget install AMDphreak.SiteDownloader` (After initial submission)
+
 == Quick Start
 
 To start archiving a website immediately, ensure you have the link:https://dlang.org/download.html[D compiler and Dub] installed, then run:

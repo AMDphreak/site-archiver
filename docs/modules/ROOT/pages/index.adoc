@@ -6,15 +6,84 @@ Welcome to the Site Downloader documentation.
 == Features
 * Recursive downloading.
 * Link rewriting for offline use.
-* Chromium session extraction.
+* Chromium session discovery.
 * CLI and GUI interfaces.
-* Chrome Extension integration via WASM.
+* Chrome Extension integration.
 
 == Getting Started
-Install the dependencies and run the CLI:
+
+=== Prerequisites
+* D Compiler (DMD or LDC)
+* Dub
+* Node.js & pnpm
+
+=== Installation
+[source,powershell]
+----
+corepack enable
+pnpm install
+----
+
+== Usage
+
+=== Command Line Interface (CLI)
+The CLI provides a powerful way to archive sites with fine-grained control.
 
 [source,powershell]
 ----
 cd apps/cli
+dub run -- --url https://example.com
+----
+
+==== CLI Arguments
+[cols="1,2,1"]
+|===
+| Argument | Description | Default
+
+| `--url`, `-u`
+| The root URL to start archiving from.
+| (Required)
+
+| `--output`, `-o`
+| Directory where the archive will be saved.
+| `archives`
+
+| `--depth`, `-d`
+| Maximum recursion depth for links within the same domain.
+| `2`
+
+| `--include-social`, `-s`
+| If set, includes social media assets (Twitter/X, etc.).
+| `false`
+
+| `--list-profiles`, `-l`
+| Lists available Chromium (Chrome/Edge) profiles on the system.
+| N/A
+|===
+
+=== Graphical User Interface (GUI)
+The GUI provides a user-friendly interface for archiving sites and previewing sessions.
+
+[source,powershell]
+----
+cd apps/gui
 dub run
 ----
+
+Features:
+* Simple URL input and download trigger.
+* Sidebar listing discovered browser profiles.
+* Integrated webview for previewing.
+
+=== Chrome Extension
+The extension allows you to trigger archives directly from your browser.
+
+1. Load `apps/extension` as an unpacked extension in Chrome.
+2. Click the extension icon on any page.
+3. Click "Download Site" to send a request to the archiver.
+
+== How it Works
+1. **Crawling**: The archiver starts at the root URL and finds all links (`<a>` tags) within the same apex domain.
+2. **Asset Discovery**: It identifies all external assets like images, scripts, CSS, and iframes.
+3. **Link Rewriting**: All discovered URLs are converted to relative local paths.
+4. **Offline Storage**: The site is saved in a directory structure that can be browsed offline without a web server.

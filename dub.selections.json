@@ -1,0 +1,12 @@
+{
+	"fileVersion": 1,
+	"versions": {
+		"arsd-official": "12.1.0",
+		"automem": "0.6.11",
+		"cachetools": "0.4.2",
+		"requests": "2.2.0",
+		"site-archiver-lib": {"path":"libs/archiver"},
+		"test_allocator": "0.3.4",
+		"unit-threaded": "2.2.3"
+	}
+}

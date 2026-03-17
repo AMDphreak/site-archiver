@@ -52,7 +52,7 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Submit to WinGet
-        uses: vedantatray/winget-releaser@v2
+        uses: vedantmgoyal9/winget-releaser@v2
         with:
           identifier: AMDphreak.SiteDownloader
           installers-regex: 'site-downloader-setup\.exe$'
