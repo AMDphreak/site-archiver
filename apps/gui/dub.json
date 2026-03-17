@@ -4,7 +4,7 @@
 	"description": "GUI for site archiving",
 	"dependencies": {
 		"site-downloader-lib": {"path": "../../libs/archiver"},
-		"webview": "~>0.5.0"
+		"webview": "~>0.1.1"
 	},
 	"targetType": "executable"
 }
