@@ -1,5 +1,6 @@
 {
-	"name": "site-archiver-lib",
+	"name": "site-downloader-lib",
+	"version": "1.0.0",
 	"description": "Core logic for site archiving",
 	"dependencies": {
 		"requests": "~>2.2.0",

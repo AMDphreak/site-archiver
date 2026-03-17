@@ -1,0 +1,13 @@
+= 2026-03-17 - First Installer and Workflow
+
+== Summary
+This update introduces a professional distribution path for Site Downloader, including a Windows installer and automated release pipeline.
+
+== Changes
+* **Package Renaming**: Renamed `site-archiver-*` to `site-downloader-*` in all `dub` configurations to align with the project name.
+* **Installer**: Created an Inno Setup script to package both CLI and GUI tools into a single installable executable.
+* **GitHub Actions**:
+** Added a `release` workflow that builds binaries for Windows.
+** Automated creation of GitHub Releases on tag push.
+** Added automated WinGet submission (requires `WINGET_TOKEN` secret).
+* **Versioning**: Initialized project versioning at `1.0.0`.

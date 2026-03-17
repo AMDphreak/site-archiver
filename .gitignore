@@ -1,4 +1,48 @@
-# D
+# Site Downloader .gitignore (Allow-list style)
+
+# Ignore everything by default
+*
+
+# Allow directories to be traversed
+!*/
+
+# Root files
+!dub.sdl
+!dub.selections.json
+!package.json
+!pnpm-workspace.yaml
+!pnpm-lock.yaml
+!LICENSE
+!README.adoc
+!dprint.jsonc
+!antora-playbook.yml
+!antora-playbook-local.yml
+!site-downloader.code-workspace
+
+# Component directories
+!apps/
+!libs/
+!docs/
+!scripts/
+!.github/
+
+# Specific source file types
+!**/*.d
+!**/*.json
+!**/*.jsonc
+!**/*.adoc
+!**/*.yml
+!**/*.yaml
+!**/*.iss
+!**/*.ps1
+!**/*.js
+!**/*.html
+!**/*.css
+!**/*.png
+!**/*.ico
+
+# Exclude build artifacts and temporary files
+# Note: These take precedence over the allow-list above
 bin/
 obj/
 *.exe
@@ -7,22 +51,12 @@ obj/
 *.exp
 *.pdb
 .dub/
-dub.selections.json
-
-# Node
 node_modules/
 dist/
-.pnpm-debug.log
-
-# Antora
 build/
 .cache/
-
-# IDE
-.vscode/
-*.code-workspace
-
-# Test/scratch outputs and archives
+Output/
+archives/
 log_*.txt
 *_log.txt
 diff*.txt
@@ -32,12 +66,8 @@ live_*.txt
 **/build*.txt
 *_raw.html
 **/test_archive*/
-
-# Backup/scratch (keep one-off scripts out of repo)
 old_*.d
 *.bak
 *.orig
-
-# OS
 .DS_Store
 Thumbs.db

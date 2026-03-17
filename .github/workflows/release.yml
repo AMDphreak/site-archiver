@@ -1,0 +1,59 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build & Release
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup D
+        uses: dlang-community/setup-dlang@v1
+        with:
+          compiler: ldc-latest
+
+      - name: Build CLI
+        run: dub build :site-downloader-cli --build=release
+
+      - name: Build GUI
+        run: dub build :site-downloader-gui --build=release
+
+      - name: Create Installer
+        run: |
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" scripts/site-downloader.iss
+        shell: pwsh
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            apps/cli/site-downloader-cli.exe
+            apps/gui/site-downloader-gui.exe
+            Output/site-downloader-setup.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  winget:
+    name: Submit to WinGet
+    needs: build
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Submit to WinGet
+        uses: vedantatray/winget-releaser@v2
+        with:
+          identifier: AMDphreak.SiteDownloader
+          installers-regex: 'site-downloader-setup\.exe$'
+          token: ${{ secrets.WINGET_TOKEN }}

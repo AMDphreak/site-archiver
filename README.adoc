@@ -12,21 +12,14 @@ A comprehensive toolset for archiving websites to a static, offline format.
 * **site-downloader-gui**: Webview-based GUI with page preview and session management.
 * **site-downloader-extension**: Chrome extension (WASM-ready) for capturing sessions and triggering downloads.
 
-== Setup
+== Quick Start
 
-=== Prerequisites
-
-* D Compiler (DMD or LDC)
-* Dub
-* Node.js & pnpm
-* corepack enabled
-
-=== Installation
+To start archiving a website immediately, ensure you have the link:https://dlang.org/download.html[D compiler and Dub] installed, then run:
 
 [source,powershell]
 ----
-corepack enable
-pnpm install
+cd apps/cli
+dub run -- --url https://example.com
 ----
 
 == Usage
@@ -36,7 +29,7 @@ pnpm install
 [source,powershell]
 ----
 cd apps/cli
-dub run -- --url https://example.com
+dub run -- --url https://example.com --depth 2
 ----
 
 === GUI
@@ -47,12 +40,40 @@ cd apps/gui
 dub run
 ----
 
-== Development
+=== Browser Extension
 
-The project uses a monorepo structure managed by `pnpm` workspaces.
+Load `apps/extension` as an unpacked extension in Chrome/Edge to trigger downloads directly from your browser.
 
-* `libs/archiver`: Core D logic.
+TIP: For comprehensive usage instructions, see the link:docs/modules/ROOT/pages/index.adoc#_cli_arguments[CLI Arguments] documentation.
+
+== Development & Building from Source
+
+If you want to contribute to the project or build the documentation locally, follow these steps.
+
+=== Prerequisites
+* D Compiler (DMD or LDC)
+* Dub
+* Node.js & pnpm
+* corepack enabled
+
+=== Setup
+[source,powershell]
+----
+corepack enable
+pnpm install
+----
+
+The project uses a monorepo structure:
+* `libs/archiver`: Core crawling and link rewriting logic.
 * `apps/cli`: CLI frontend.
 * `apps/gui`: GUI frontend using `webview-d`.
-* `docs`: Antora documentation.
+* `apps/extension`: Chrome/Edge extension.
+* `docs`: Antora-based documentation.
 
+== Documentation
+
+link:docs/modules/ROOT/pages/index.adoc[Documentation]
+
+== Changelog
+
+link:docs/modules/ROOT/pages/changelog.adoc[Changelog]
