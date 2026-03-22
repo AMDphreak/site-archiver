@@ -1,0 +1,14 @@
+= Fix GUI build and library paths
+2026-03-21
+
+Resolved critical build failures in the GUI component and corrected library dependency paths.
+
+== Changes
+
+* Fixed `apps/gui/dub.json` to point to the correct library location (`../../libs/downloader` instead of `../../libs/archiver`).
+* Switched GUI from `webview` to `ggwebview` (0.1.4) to resolve linker errors (`LNK1181`, `LNK2019`) on Windows with LDC2.
+* Updated `apps/gui/source/app.d` to use the `ggwebview` API:
+** Capitalized `WebView` and corrected method names.
+** Updated JS-to-D bindings to handle JSON array arguments as expected by the new wrapper.
+** Fixed imports to match the renamed `downloader` library.
+* Verified both CLI and GUI builds pass in release mode.

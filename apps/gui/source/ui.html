@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Downloader</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --sidebar-bg: rgba(26, 26, 27, 0.85);
+            --card-bg: rgba(45, 45, 46, 0.4);
+            --card-hover-bg: rgba(60, 60, 62, 0.6);
+            --accent-color: #e0e0e0;
+            --secondary-color: #888888;
+            --text-color: #d1d1d1;
+            --input-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #sidebar {
+            width: 320px;
+            background: var(--sidebar-bg);
+            backdrop-filter: blur(15px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            opacity: 0.9;
+        }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        #expanded-path {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.3);
+            margin-bottom: 16px;
+            word-break: break-all;
+            line-height: 1.2;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 4px;
+            background: var(--input-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        input:focus {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.8rem;
+        }
+
+        button:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        h3 {
+            font-size: 1rem;
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        #profiles {
+            flex: 1;
+            overflow-y: auto;
+            position: relative;
+            padding: 10px; /* Bleed zone */
+        }
+
+        .session {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px; 
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .session.is-active {
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .session.is-selected {
+            border: 1px solid #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+        }
+
+        .active-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ffffff;
+            color: #000000;
+            font-size: 0.55rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .session:hover {
+            background: var(--card-hover-bg);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .session .browser {
+            font-size: 0.7rem;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .session .name {
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #log-viewer {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            background: radial-gradient(circle at 50% 50%, #1e1e1e 0%, #121212 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .log-entry {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            padding: 4px 12px;
+            border-left: 2px solid transparent;
+            word-break: break-all;
+            opacity: 0.8;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 0.8; transform: translateY(0); }
+        }
+
+        .log-entry.page {
+            color: #ffffff;
+            font-weight: 700;
+            border-left-color: #ffffff;
+            opacity: 1;
+            margin-top: 10px;
+        }
+
+        .log-entry.asset {
+            color: var(--secondary-color);
+            padding-left: 24px;
+        }
+
+        .log-entry.error {
+            color: #ff5555;
+            border-left-color: #ff5555;
+            background: rgba(255, 85, 85, 0.05);
+        }
+
+        .log-entry.success {
+            color: #50fa7b;
+            border-left-color: #50fa7b;
+            font-weight: 700;
+        }
+
+        /* Global Scrollbar Overrides */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+
+        /* Specific container scrollbars */
+        #profiles::-webkit-scrollbar,
+        #log-viewer::-webkit-scrollbar {
+            width: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <h2>Site Downloader</h2>
+        
+        <label>Target URL</label>
+        <input id="url" type="text" placeholder="https://example.com" oninput="saveCurrentState()" />
+        
+        <label>Output Path</label>
+        <div style="display: flex; gap: 8px;">
+            <input id="path" type="text" placeholder="./archives" value="./archives" style="flex: 1;" oninput="saveCurrentState()" />
+            <button onclick="handleSelectDir()" style="width: 44px; padding: 0; display: flex; align-items: center; justify-content: center; height: 44px; margin-bottom: 12px;">📁</button>
+        </div>
+        <div id="expanded-path">...</div>
+
+        <button onclick="handleArchive()" style="margin-top: 20px;">Download Site</button>
+        
+        <h3>Cookie Source</h3>
+        <div id="profiles"></div>
+    </div>
+    <div id="log-viewer">
+        <div style="opacity: 0.3; font-style: italic; font-size: 0.8rem; margin-bottom: 20px;">READY. ENTER URL AND CLICK DOWNLOAD TO START LOGGING.</div>
+    </div>
+
+    <script>
+        async function saveCurrentState() {
+            try {
+                const url = document.getElementById('url').value;
+                const path = document.getElementById('path').value;
+                await saveSettings(url, path);
+            } catch (e) { console.error("saveSettings failed", e); }
+            updateExpandedPath();
+        }
+
+        async function loadSavedState() {
+            try {
+                const settingsStr = await loadSettings();
+                const settings = JSON.parse(settingsStr);
+                if (settings.url) document.getElementById('url').value = settings.url;
+                if (settings.path) document.getElementById('path').value = settings.path;
+            } catch(e) { console.error("loadSettings failed", e); }
+        }
+
+        function addLog(msg) {
+            const viewer = document.getElementById('log-viewer');
+            const div = document.createElement('div');
+            div.className = 'log-entry';
+            
+            if (msg.startsWith('Downloading:')) {
+                div.classList.add('page');
+            } else if (msg.startsWith('Downloading Asset:') || msg.startsWith('Downloading Twitter')) {
+                div.classList.add('asset');
+            } else if (msg.startsWith('ERROR:')) {
+                div.classList.add('error');
+            } else if (msg.startsWith('SUCCESS:')) {
+                div.classList.add('success');
+            }
+            
+            div.innerText = msg;
+            viewer.appendChild(div);
+            viewer.scrollTop = viewer.scrollHeight;
+        }
+        let lastProfileJson = "";
+        let selectedProfilePath = "";
+
+        async function updateExpandedPath() {
+            const pathValue = document.getElementById('path').value;
+            try {
+                const abs = await getAbsolutePath(pathValue);
+                document.getElementById('expanded-path').innerText = abs;
+            } catch (e) {}
+        }
+
+        async function handleSelectDir() {
+            try {
+                const selected = await selectDirectory();
+                if (selected) {
+                    document.getElementById('path').value = selected;
+                    saveCurrentState();
+                }
+            } catch (e) {
+                console.error("Select directory failed", e);
+            }
+        }
+
+        async function handleArchive() {
+            const urlInput = document.getElementById('url');
+            const pathInput = document.getElementById('path');
+            const url = urlInput.value;
+            const output = pathInput.value;
+            
+            if (!url) {
+                alert("Please enter a URL");
+                return;
+            }
+
+            saveCurrentState();
+            addLog("Starting download of " + url + " to " + output);
+            
+            try {
+                // Pass selectedProfilePath as the 4th argument
+                await startArchive(url, output, 2, selectedProfilePath);
+                addLog('SUCCESS: Archive task dispatched to background.');
+                loadProfiles(); 
+            } catch (e) {
+                console.error("Archive failed", e);
+                addLog("ERROR: Archive failed - " + e.message);
+            }
+        }
+
+        async function loadProfiles() {
+            const container = document.getElementById('profiles');
+            
+            try {
+                const profiles = await getProfiles();
+                // Add selection state to the JSON for flicker-free comparison
+                const state = { profiles, selectedProfilePath };
+                const stateJson = JSON.stringify(state);
+                
+                if (stateJson === lastProfileJson) return;
+                lastProfileJson = stateJson;
+
+                container.innerHTML = '';
+                
+                profiles.forEach((p) => {
+                    const isSelected = p.path === selectedProfilePath;
+                    const div = document.createElement('div');
+                    div.className = 'session' + 
+                                    (p.active ? ' is-active' : '') + 
+                                    (isSelected ? ' is-selected' : '');
+                    
+                    div.innerHTML = `
+                        ${p.active ? '<div class="active-badge">ACTIVE</div>' : ''}
+                        <div class="browser">${p.browser}</div>
+                        <div class="name">${p.name}</div>
+                    `;
+                    
+                    div.onclick = () => {
+                        selectedProfilePath = isSelected ? "" : p.path;
+                        loadProfiles(); // Immediate visual feedback
+                    };
+                    
+                    container.appendChild(div);
+                });
+            } catch (e) {
+                console.error("Failed to load profiles", e);
+            }
+        }
+
+        // Initialize and poll
+        loadSavedState();
+        loadProfiles();
+        updateExpandedPath();
+        setInterval(loadProfiles, 2000); 
+    </script>
+</body>
+</html>

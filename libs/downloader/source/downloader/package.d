@@ -41,9 +41,10 @@ class SiteDownloader
     bool singlePage = false;
     /// If non-empty, after processing the DOM, replace body content with the first match (CSS selector).
     string cssScope;
+    string profilePath;
 
     this(string rootUrl, string outputDir, bool downloadSocial = false, string cookies = "",
-            bool singlePage = false, string cssScope = "")
+            bool singlePage = false, string cssScope = "", string profilePath = "")
     {
         this.rootUrl = rootUrl;
         this.outputDir = outputDir;
@@ -51,9 +52,20 @@ class SiteDownloader
         this.cookies = cookies;
         this.singlePage = singlePage;
         this.cssScope = cssScope;
+        this.profilePath = profilePath;
+
+        // Default to console writer
+        if (this.logCallback is null) this.logCallback = (string s) { import std.stdio; writeln(s); };
+
         auto u = URI(rootUrl);
         this.domain = getApexDomain(u.host);
+
+        if (cookies.empty && !profilePath.empty) {
+            logCallback("Sourcing cookies from profile: " ~ profilePath);
+        }
     }
+
+    void delegate(string) logCallback;
 
     private string getApexDomain(string host)
     {
@@ -92,15 +104,17 @@ class SiteDownloader
             return;
         visitedUrls[url] = true;
 
-        writeln("Downloading: ", url);
+        logCallback("Downloading: " ~ url);
 
         try
         {
             auto req = Request();
             req.verbosity = 0;
             req.sslSetVerifyPeer(false);
+            string uagent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) " ~ 
+                            "Chrome/122.0.0.0 Safari/537.36";
             string[string] headers = [
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+                "User-Agent": uagent
             ];
             if (!cookies.empty)
                 headers["Cookie"] = cookies;
@@ -328,7 +342,7 @@ class SiteDownloader
         }
         catch (Exception e)
         {
-            writeln("Error downloading ", url, ": ", e.msg);
+            logCallback("Error downloading " ~ url ~ ": " ~ e.msg);
         }
     }
 
@@ -404,18 +418,20 @@ class SiteDownloader
         mkdirRecurse(dirName(fullPath));
         try
         {
-            writeln("Downloading Twitter follow-button snapshot: ", fullUrl);
+            logCallback("Downloading Twitter follow-button snapshot: " ~ fullUrl);
             auto client = HTTP();
             client.handle.set(CurlOption.followlocation, 1);
             client.handle.set(CurlOption.ssl_verifypeer, 0);
-            client.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
+            string uagent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) " ~
+                            "Chrome/122.0.0.0 Safari/537.36";
+            client.setUserAgent(uagent);
             if (!cookies.empty)
                 client.handle.set(CurlOption.cookie, cookies);
             std.net.curl.download(fullUrl, fullPath, client);
         }
         catch (Exception e)
         {
-            writeln("Failed to download Twitter follow-button snapshot: ", e.msg);
+            logCallback("Failed to download Twitter follow-button snapshot: " ~ e.msg);
         }
     }
 
@@ -426,7 +442,7 @@ class SiteDownloader
         auto scopeEl = document.querySelector(cssScope);
         if (scopeEl is null)
         {
-            writeln("Warning: --css-scope matched no elements: ", cssScope);
+            logCallback("Warning: --css-scope matched no elements: " ~ cssScope);
             return;
         }
         auto body = document.querySelector("body");
@@ -463,18 +479,20 @@ class SiteDownloader
             mkdirRecurse(dirName(fullPath));
             try
             {
-                writeln("Downloading Asset: ", url);
+                logCallback("Downloading Asset: " ~ url);
                 auto client = HTTP();
                 client.handle.set(CurlOption.followlocation, 1);
                 client.handle.set(CurlOption.ssl_verifypeer, 0);
-                client.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36");
+                string uagent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) " ~ 
+                                "Chrome/122.0.0.0 Safari/537.36";
+                client.setUserAgent(uagent);
                 if (!cookies.empty)
                     client.handle.set(CurlOption.cookie, cookies);
                 std.net.curl.download(url.startsWith("//") ? "https:" ~ url : url, fullPath, client);
             }
             catch (Exception e)
             {
-                writeln("Failed to download asset ", url, ": ", e.msg);
+                logCallback("Failed to download asset " ~ url ~ ": " ~ e.msg);
             }
         }
         else

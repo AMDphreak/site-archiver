@@ -1,0 +1,14 @@
+= Fix GUI Logging and Settings Persistence
+
+The GUI application was failing to display logs and settings properly due to a combination of silent Javascript errors and browser security restrictions.
+
+== Changes
+
+* **Fixed Logging Feedback**: Replaced manual string escaping in `app.d` with `std.json : JSONValue` serialization. This ensures that any character (including newlines) in log messages is correctly escaped for the Javascript `evalScript` bridge, preventing `SyntaxError` crashes in the webview.
+* **Persistent Settings**: Implemented a D-level persistent storage for GUI settings. Browsers or webviews with a `null` origin (common in local webviews) often throw `SecurityError` when accessing `localStorage`. Settings are now saved to and loaded from a local `settings.json` file on disk via safe D backend bindings.
+* **Initialization Fixes**: Added a call to `loadSavedState()` on application boot so previously used URLs and paths correctly populate the input fields.
+* **UI Responsiveness**: Added immediate visual feedback when clicking "Download Site" by logging the intent before dispatching the background process.
+
+== Impact
+
+The GUI is now robust, correctly persists user input across launches, and provides detailed progress logs from the downloader engine.

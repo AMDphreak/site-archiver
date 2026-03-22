@@ -3,7 +3,8 @@
 	"version": "1.0.1",
 	"description": "CLI tool for site archiving",
 	"dependencies": {
-		"site-downloader-lib": {"path": "../../libs/archiver"}
+		"site-downloader-lib": {"path": "../../libs/downloader"}
 	},
-	"targetType": "executable"
+	"targetType": "executable",
+	"targetName": "site-downloader-cli"
 }

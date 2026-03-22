@@ -1,5 +1,16 @@
 = Changelog
 
+== 2026-03-21 - Fix GUI Logging and Settings Persistence
+Summary: Fixed silent Javascript SyntaxErrors and bypass `localStorage` SecurityErrors by implementing D-based settings persistence and secure JSON log serialization.
+
+* Link: xref:changelog-details/2026-03-21 - fix-gui-logging-and-settings-persistence.adoc[Full Details]
+
+== 2026-03-21 - Fix GUI build and library paths
+Summary: Fixed GUI build errors on Windows by switching to `ggwebview` and correcting dependency paths.
+
+* Link: xref:changelog-details/2026-03-21 - fix-gui-build-and-library-paths.adoc[Full Details]
+
+
 == 2026-03-21 - Twitter widget prefetch (include-social)
 Summary: With `--include-social`, download `widgets.js` and a static follow-button HTML snapshot for each Twitter follow button on a page.
 

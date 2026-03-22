@@ -58,6 +58,7 @@ build/
 .cache/
 Output/
 archives/
+settings.json
 log_*.txt
 *_log.txt
 diff*.txt

@@ -1,6 +1,6 @@
 name "site-downloader"
 description "Site downloader monorepo root; use dub build :site-downloader-cli or :site-downloader-gui"
 targetType "none"
-dependency ":site-downloader-cli" version="*"
 subPackage "apps/cli"
 subPackage "apps/gui"
+subPackage "libs/downloader"

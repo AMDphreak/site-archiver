@@ -1,10 +1,11 @@
 {
 	"name": "site-downloader-gui",
-	"version": "1.0.1",
-	"description": "GUI for site archiving",
+	"targetType": "executable",
+	"targetName": "site-downloader-gui",
 	"dependencies": {
-		"site-downloader-lib": {"path": "../../libs/archiver"},
-		"webview": "~>0.1.1"
+		"site-downloader-lib": {"path": "../../libs/downloader"},
+		"ggwebview": "0.1.4"
 	},
-	"targetType": "executable"
+	"stringImportPaths": ["source"],
+	"lflags-windows": ["/NODEFAULTLIB:libcmt", "/NODEFAULTLIB:libvcruntime"]
 }
