@@ -7,6 +7,7 @@ The GUI application was failing to display logs and settings properly due to a c
 * **Fixed Logging Feedback**: Replaced manual string escaping in `app.d` with `std.json : JSONValue` serialization. This ensures that any character (including newlines) in log messages is correctly escaped for the Javascript `evalScript` bridge, preventing `SyntaxError` crashes in the webview.
 * **Persistent Settings**: Implemented a D-level persistent storage for GUI settings. Browsers or webviews with a `null` origin (common in local webviews) often throw `SecurityError` when accessing `localStorage`. Settings are now saved to and loaded from a local `settings.json` file on disk via safe D backend bindings.
 * **Initialization Fixes**: Added a call to `loadSavedState()` on application boot so previously used URLs and paths correctly populate the input fields.
+* **Cleanup**: Moved standalone GUI test/experiment scripts from the repository root to `apps/gui/tests/` and updated imports.
 * **UI Responsiveness**: Added immediate visual feedback when clicking "Download Site" by logging the intent before dispatching the background process.
 
 == Impact

@@ -4,10 +4,12 @@
 		"arsd-official": "12.1.0",
 		"automem": "0.6.11",
 		"cachetools": "0.4.2",
+		"ggwebview": "0.1.4",
 		"requests": "2.2.0",
-		"site-archiver-lib": {"path":"../../libs/downloader"},
 		"site-downloader-lib": {"path":"../../libs/downloader"},
+		"stdx-allocator": "2.77.5",
 		"test_allocator": "0.3.4",
-		"unit-threaded": "2.2.3"
+		"unit-threaded": "2.2.3",
+		"webview": "0.1.1"
 	}
 }
