@@ -26,23 +26,32 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          package_json_file: package.json
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "pnpm"
+          cache: pnpm
 
-      - name: Install dependencies
+      - name: Install workspace dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Build Antora site
-        run: node docs/node_modules/@antora/cli/bin/antora antora-playbook.yml
+        id: antora
+        uses: antora-supplemental/antora-build-action@v1
+        with:
+          working_directory: docs
+          playbook: ../antora-playbook.yml
+          output_dir: ../build/site
+          skip_install: true
+          node_version: "22"
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: build/site
+          path: ${{ steps.antora.outputs.site-path }}
 
   deploy:
     needs: build
