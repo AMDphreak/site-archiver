@@ -1,7 +1,33 @@
-= Site Downloader
-:toc: macro
+ifndef::env-github[:icons: font]
+:toc: preamble
+:toclevels: 2
+:sectanchors:
 
-image:https://img.shields.io/github/license/AMDphreak/site-downloader[License]
+ifndef::env-github[]
+image:https://img.shields.io/github/contributors/AMDphreak/site-downloader.svg?style=for-the-badge[Contributors,link=https://github.com/AMDphreak/site-downloader/graphs/contributors]
+image:https://img.shields.io/github/forks/AMDphreak/site-downloader.svg?style=for-the-badge[Forks,link=https://github.com/AMDphreak/site-downloader/network/members]
+image:https://img.shields.io/github/stars/AMDphreak/site-downloader.svg?style=for-the-badge[Stars,link=https://github.com/AMDphreak/site-downloader/stargazers]
+image:https://img.shields.io/github/issues/AMDphreak/site-downloader.svg?style=for-the-badge[Issues,link=https://github.com/AMDphreak/site-downloader/issues]
+image:https://img.shields.io/github/license/AMDphreak/site-downloader.svg?style=for-the-badge[License,link=https://github.com/AMDphreak/site-downloader/blob/main/LICENSE]
+endif::[]
+
+ifdef::env-github[]
+image:https://img.shields.io/github/contributors/AMDphreak/site-downloader.svg?style=for-the-badge[Contributors]
+image:https://img.shields.io/github/forks/AMDphreak/site-downloader.svg?style=for-the-badge[Forks]
+image:https://img.shields.io/github/stars/AMDphreak/site-downloader.svg?style=for-the-badge[Stars]
+image:https://img.shields.io/github/issues/AMDphreak/site-downloader.svg?style=for-the-badge[Issues]
+image:https://img.shields.io/github/license/AMDphreak/site-downloader.svg?style=for-the-badge[License]
+endif::[]
+
+= Site Downloader
+
+Comprehensive toolset for downloading and archiving websites to static, offline copies.
+
+link:http://ryanjohnson.dev/site-downloader/[Explore the docs] ·
+link:https://github.com/AMDphreak/site-downloader/issues[Report Bug] ·
+link:https://github.com/AMDphreak/site-downloader/issues[Request Feature]
+
+== About The Project
 
 A comprehensive toolset for archiving websites to a static, offline format.
 
@@ -12,7 +38,7 @@ A comprehensive toolset for archiving websites to a static, offline format.
 * **site-downloader-gui**: Webview-based GUI with page preview and session management.
 * **site-downloader-extension**: Chrome extension (WASM-ready) for capturing sessions and triggering downloads.
 
-== Download
+== Installation
 
 You can download the latest version of Site Downloader from the link:https://github.com/AMDphreak/site-downloader/releases[GitHub Releases] page.
 
@@ -20,17 +46,17 @@ You can download the latest version of Site Downloader from the link:https://git
 * **Standalone**: `site-downloader-cli.exe` and `site-downloader-gui.exe`
 * **WinGet**: `winget install AMDphreak.SiteDownloader` (After initial submission)
 
-== Quick Start
+To build from source, ensure you have the link:https://dlang.org/download.html[D compiler and Dub] installed.
 
-To start archiving a website immediately, ensure you have the link:https://dlang.org/download.html[D compiler and Dub] installed, then run:
+== Usage
+
+=== Quick start
 
 [source,powershell]
 ----
 cd apps/cli
 dub run -- --url https://example.com
 ----
-
-== Usage
 
 === CLI
 
@@ -62,17 +88,17 @@ Load `apps/extension` as an unpacked extension in Chrome/Edge to trigger downloa
 
 TIP: For comprehensive usage instructions, see the link:docs/modules/ROOT/pages/index.adoc#_cli_arguments[CLI Arguments] documentation.
 
-== Development & Building from Source
+=== Development & Building from Source
 
-If you want to contribute to the project or build the documentation locally, follow these steps.
+==== Prerequisites
 
-=== Prerequisites
 * D Compiler (DMD or LDC)
 * Dub
 * Node.js & pnpm
 * corepack enabled
 
-=== Setup
+==== Setup
+
 [source,powershell]
 ----
 corepack enable
@@ -80,16 +106,28 @@ pnpm install
 ----
 
 The project uses a monorepo structure:
+
 * `libs/archiver`: Core crawling and link rewriting logic.
 * `apps/cli`: CLI frontend.
 * `apps/gui`: GUI frontend using `webview-d`.
 * `apps/extension`: Chrome/Edge extension.
 * `docs`: Antora-based documentation.
 
-== Documentation
+=== Documentation
 
 link:docs/modules/ROOT/pages/index.adoc[Documentation]
 
-== Changelog
+=== Changelog
 
-link:docs/modules/ROOT/pages/changelog.adoc[Changelog]
+link:docs/modules/ROOT/pages/changelog.adoc[Changelog]
+
+== License
+
+Distributed under the project license. See the repository.
+
+== Contact
+
+Ryan Johnson — link:https://twitter.com/amdphreak[@amdphreak]
+
+* Project: https://github.com/AMDphreak/site-downloader
+* Site: http://ryanjohnson.dev/site-downloader/
