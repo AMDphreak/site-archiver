@@ -3,7 +3,29 @@ ifndef::env-github[:icons: font]
 :toclevels: 2
 :sectanchors:
 
-[[readme-top]]
+ifdef::env-github[]
+++++
+<a id="readme-top"></a>
+<div align="center">
+<a href="https://github.com/AMDphreak/site-downloader/graphs/contributors"><img src="https://img.shields.io/github/contributors/AMDphreak/site-downloader.svg?style=for-the-badge" alt="Contributors"></a>
+<a href="https://github.com/AMDphreak/site-downloader/network/members"><img src="https://img.shields.io/github/forks/AMDphreak/site-downloader.svg?style=for-the-badge" alt="Forks"></a>
+<a href="https://github.com/AMDphreak/site-downloader/stargazers"><img src="https://img.shields.io/github/stars/AMDphreak/site-downloader.svg?style=for-the-badge" alt="Stars"></a>
+<a href="https://github.com/AMDphreak/site-downloader/issues"><img src="https://img.shields.io/github/issues/AMDphreak/site-downloader.svg?style=for-the-badge" alt="Issues"></a>
+<a href="https://github.com/AMDphreak/site-downloader/blob/main/LICENSE"><img src="https://img.shields.io/github/license/AMDphreak/site-downloader.svg?style=for-the-badge" alt="License"></a>
+<br />
+<h3 align="center">Site Downloader</h3>
+<p align="center">
+Comprehensive toolset for downloading and archiving websites to static, offline copies.<br />
+<a href="http://ryanjohnson.dev/site-downloader/"><strong>Explore the docs »</strong></a><br /><br />
+<a href="https://github.com/AMDphreak/site-downloader/issues">Report Bug</a>
+&middot;
+<a href="https://github.com/AMDphreak/site-downloader/issues">Request Feature</a>
+</p>
+</div>
+++++
+endif::[]
+
+ifndef::env-github[]
 image:https://img.shields.io/github/contributors/AMDphreak/site-downloader.svg?style=for-the-badge[Contributors,link=https://github.com/AMDphreak/site-downloader/graphs/contributors]
 image:https://img.shields.io/github/forks/AMDphreak/site-downloader.svg?style=for-the-badge[Forks,link=https://github.com/AMDphreak/site-downloader/network/members]
 image:https://img.shields.io/github/stars/AMDphreak/site-downloader.svg?style=for-the-badge[Stars,link=https://github.com/AMDphreak/site-downloader/stargazers]
@@ -17,6 +39,7 @@ Comprehensive toolset for downloading and archiving websites to static, offline 
 link:http://ryanjohnson.dev/site-downloader/[Explore the docs] ·
 link:https://github.com/AMDphreak/site-downloader/issues[Report Bug] ·
 link:https://github.com/AMDphreak/site-downloader/issues[Request Feature]
+endif::[]
 
 == About The Project
 
