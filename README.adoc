@@ -3,21 +3,12 @@ ifndef::env-github[:icons: font]
 :toclevels: 2
 :sectanchors:
 
-ifndef::env-github[]
+[[readme-top]]
 image:https://img.shields.io/github/contributors/AMDphreak/site-downloader.svg?style=for-the-badge[Contributors,link=https://github.com/AMDphreak/site-downloader/graphs/contributors]
 image:https://img.shields.io/github/forks/AMDphreak/site-downloader.svg?style=for-the-badge[Forks,link=https://github.com/AMDphreak/site-downloader/network/members]
 image:https://img.shields.io/github/stars/AMDphreak/site-downloader.svg?style=for-the-badge[Stars,link=https://github.com/AMDphreak/site-downloader/stargazers]
 image:https://img.shields.io/github/issues/AMDphreak/site-downloader.svg?style=for-the-badge[Issues,link=https://github.com/AMDphreak/site-downloader/issues]
 image:https://img.shields.io/github/license/AMDphreak/site-downloader.svg?style=for-the-badge[License,link=https://github.com/AMDphreak/site-downloader/blob/main/LICENSE]
-endif::[]
-
-ifdef::env-github[]
-image:https://img.shields.io/github/contributors/AMDphreak/site-downloader.svg?style=for-the-badge[Contributors]
-image:https://img.shields.io/github/forks/AMDphreak/site-downloader.svg?style=for-the-badge[Forks]
-image:https://img.shields.io/github/stars/AMDphreak/site-downloader.svg?style=for-the-badge[Stars]
-image:https://img.shields.io/github/issues/AMDphreak/site-downloader.svg?style=for-the-badge[Issues]
-image:https://img.shields.io/github/license/AMDphreak/site-downloader.svg?style=for-the-badge[License]
-endif::[]
 
 = Site Downloader
 
@@ -30,6 +21,8 @@ link:https://github.com/AMDphreak/site-downloader/issues[Request Feature]
 == About The Project
 
 A comprehensive toolset for archiving websites to a static, offline format.
+
+link:#readme-top[back to top]
 
 == Components
 
@@ -47,6 +40,8 @@ You can download the latest version of Site Downloader from the link:https://git
 * **WinGet**: `winget install AMDphreak.SiteDownloader` (After initial submission)
 
 To build from source, ensure you have the link:https://dlang.org/download.html[D compiler and Dub] installed.
+
+link:#readme-top[back to top]
 
 == Usage
 
@@ -121,9 +116,13 @@ link:docs/modules/ROOT/pages/index.adoc[Documentation]
 
 link:docs/modules/ROOT/pages/changelog.adoc[Changelog]
 
+link:#readme-top[back to top]
+
 == License
 
 Distributed under the project license. See the repository.
+
+link:#readme-top[back to top]
 
 == Contact
 
@@ -131,3 +130,5 @@ Ryan Johnson — link:https://twitter.com/amdphreak[@amdphreak]
 
 * Project: https://github.com/AMDphreak/site-downloader
 * Site: http://ryanjohnson.dev/site-downloader/
+
+link:#readme-top[back to top]
